@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback Registration</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        h2 { text-align: center; color: #333; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .radio-group { display: flex; gap: 15px; }
+        .error { color: red; font-size: 0.85em; display: none; margin-top: 5px; }
+        .buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        button {
+            padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold;
+        }
+        .btn-submit { background-color: #28a745; }
+        .btn-reset { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Student Feedback</h2>
+    <form id="feedbackForm" onsubmit="return validateForm()">
+        
+        <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" name="studentName">
+            <div class="error" id="nameError">Name cannot be empty.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email ID</label>
+            <input type="text" id="email" name="email">
+            <div class="error" id="emailError">Enter a valid email format.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile" name="mobile" maxlength="10">
+            <div class="error" id="mobileError">Enter a valid 10-digit mobile number.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" name="department">
+                <option value="">Select Department</option>
+                <option value="CS">Computer Science</option>
+                <option value="IT">Information Technology</option>
+                <option value="ME">Mechanical Engineering</option>
+            </select>
+            <div class="error" id="deptError">Please select a department.</div>
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="radio-group">
+                <label><input type="radio" name="gender" value="Male"> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+            </div>
+            <div class="error" id="genderError">Please select a gender.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="comments">Feedback Comments</label>
+            <textarea id="comments" name="comments" rows="4"></textarea>
+            <div class="error" id="commentsError">Comments must be at least 10 words.</div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-submit" id="submitBtn">Submit</button>
+            <button type="reset" class="btn-reset" id="resetBtn" onclick="hideErrors()">Reset</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+        hideErrors();
+
+        // Validate Name
+        const name = document.getElementById('studentName').value.trim();
+        if (name === "") { document.getElementById('nameError').style.display = "block"; isValid = false; }
+
+        // Validate Email
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) { document.getElementById('emailError').style.display = "block"; isValid = false; }
+
+        // Validate Mobile (Digits only, assuming 10 digits)
+        const mobile = document.getElementById('mobile').value.trim();
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!mobileRegex.test(mobile)) { document.getElementById('mobileError').style.display = "block"; isValid = false; }
+
+        // Validate Department
+        const dept = document.getElementById('department').value;
+        if (dept === "") { document.getElementById('deptError').style.display = "block"; isValid = false; }
+
+        // Validate Gender
+        const gender = document.querySelector('input[name="gender"]:checked');
+        if (!gender) { document.getElementById('genderError').style.display = "block"; isValid = false; }
+
+        // Validate Comments (Minimum 10 words)
+        const comments = document.getElementById('comments').value.trim();
+        const wordCount = comments === "" ? 0 : comments.split(/\s+/).length;
+        if (wordCount < 10) { document.getElementById('commentsError').style.display = "block"; isValid = false; }
+
+        if (isValid) {
+            alert("Form submitted successfully!");
+        }
+
+        return isValid; // Prevents submission if false
+    }
+
+    function hideErrors() {
+        const errors = document.querySelectorAll('.error');
+        errors.forEach(error => error.style.display = "none");
+    }
+</script>
+
+</body>
+</html>
