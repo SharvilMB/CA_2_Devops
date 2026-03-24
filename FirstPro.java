@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class FirstPro {
     WebDriver driver;
     // Replace this with the actual path to your HTML file
-    String url = "file:///C://sem_6//devops//CA2_Feedback//index.html"; 
+    String url = "file:///C:/sem_6/devops/CA2_Feedback/index.html"; 
 
     @Before
     public void setUp() {
